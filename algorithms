@@ -1,0 +1,84 @@
+DEFINE all_states as LIST
+DEFINE stack as LIST
+
+FUNCTION MAIN()
+	INPUT S1
+	INPUT S2
+	generate_states(S1)
+	DEFINE states_S1 as LIST and SET all_states 
+	PRINT states_S1
+	CLEAR all_states 
+	CLEAR stack 
+	generate_states(S2)
+	DEFINE states_S2 as LIST and SET to all_states
+	PRINT states_S2
+	states_difference(states_S1,states_S2)
+END MAIN 
+
+FUNCTION generate_states(start_state)
+	all_statesstates APPEND start_state
+	stack APPEND start_state
+	WHILE stack is not empty THEN
+		SET popped_state to last state in stack
+		generate_new_state(popped_state)
+	ENDWHILE
+END generate_states
+
+FUNCTION generate_new_state(popped_state)
+	BOOLEAN new_state_created SET to FALSE 
+	DEFINE available_states as LIST
+	SET available_states to available_states(popped_state)
+	FOR state in available_states THEN
+		IF all_states CONTAINS state THEN
+			SET new_state_created to FALSE
+		ELSE	
+			PRINT state
+			all_states APPEND state 
+			stack APPEND state
+			SET new_state_created to TRUE 
+			BREAK
+	ENDFOR
+	IF new_state_created is FALSE THEN
+		REMOVE last state from the stack
+	ENDIF
+END generate_new_state	
+	
+FUNCTION available_states (state)
+	DEFINE available_states as LIST
+
+	IF blank space can move UP in state THEN
+		CREATE UP_state 
+		available_states APPEND UP_state
+	ENDIF 
+	IF blank space can move DOWN in state THEN
+		CREATE DOWN_state 
+		available_states APPEND DOWN_state
+	ENDIF
+	IF blank space can move LEFT in state THEN
+		CREATE LEFT_state 
+		available_states APPEND LEFT_state
+	ENDIF
+	IF blank space can move RIGHT in state THEN
+		CREATE RIGHT_state 
+		available_states APPEND RIGHT_state
+	ENDIF
+RETURN available_states	
+
+FUNCTION states_difference(states_S1,states_S2)
+	if states_S2 CONTAINS first element of states_S1 THEN
+		PRINT R(S1)/R(S2) has no elements 
+	ELSE 
+		PRINT R(S1)/R(S2) has all elements OF R(S1)
+	ENDIF
+END states_difference		
+
+		
+	
+	
+	
+			
+	
+
+	
+
+ 
